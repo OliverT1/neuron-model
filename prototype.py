@@ -17,7 +17,7 @@ for i in range(0, 9):
     G.add_edge(i, i+1)
 G.add_edge(9, 0)
 
-nx.draw(G, node_color="cornflowerblue", with_labels=True)
+nx.draw_circular(G, node_color="cornflowerblue", with_labels=True)
 
 def animate(frame):
     fig.clear()
