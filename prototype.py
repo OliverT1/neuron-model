@@ -4,20 +4,21 @@ import random
 
 from networkx.algorithms.bipartite.basic import color
 
-plt.rcParams["figure.figsize"] = [5.0, 5.0]
+plt.rcParams["figure.figsize"] = [10.0, 10.0]
 plt.rcParams["figure.autolayout"] = True
 
 fig = plt.figure()
 
 G = nx.Graph()
-G.add_nodes_from([0, 1, 2, 3, 4])
-for i in range(0, 10):
+graph_size = 20
+for i in range(0, graph_size):
     G.add_node(i)
-for i in range(0, 9):
-    G.add_edge(i, i+1)
-G.add_edge(9, 0)
+for i in range(0, graph_size):
+    for j in range (i+1, graph_size):
+        G.add_edge(i, j)
+G.add_edge(graph_size-1, 0)
 
-nx.draw_circular(G, node_color="cornflowerblue", with_labels=True)
+nx.draw_kamada_kawai(G, node_color="cornflowerblue", with_labels=False)
 
 def animate(frame):
     fig.clear()
@@ -29,8 +30,8 @@ def animate(frame):
         else:
             color_map.append("cornflowerblue")
     
-    nx.draw_circular(G, node_color=color_map, with_labels=True)
+    nx.draw_kamada_kawai(G, node_color=color_map, with_labels=False)
 
-ani = animation.FuncAnimation(fig, animate, frames=20, interval=250, repeat=True)
+ani = animation.FuncAnimation(fig, animate, frames=1000, interval=100, repeat=True)
 
 plt.show()
