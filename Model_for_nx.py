@@ -42,7 +42,7 @@ def spiking_rate(voltage):
     : 
     """
     if voltage < 0:
-        raise ValueError("voltage should be non-negative")
+        voltage = 0
     return (voltage**3 * 3E9)
 
 def get_spike_addition(i, spike_record, weights):
