@@ -5,7 +5,7 @@ import numpy as np
 import Model_for_nx as mnx
 
 N = 100
-end_time = 5
+end_time = 20
 dt = 1E-2
 result = mnx.run_simulation(N=N, end_time=end_time, dt=dt) 
 
@@ -27,13 +27,13 @@ pos = nx.random_layout(G, seed=42)
 nx.draw(G, pos=pos, node_color='cornflowerblue', node_size=100)
 
 def animate(frame):
-    timestep=frame
+    timestep=frame * end_time
     fig.clear()
     color_map_node = [] 
     color_map_edge = []
     for node in G:
-        fire = result.time_record[node][timestep]
-        # print("Node: " + str(node) + "\t Frame: " + str(timestep) + "\tFire: " + str(fire))
+        fire = result.spike_record[node][timestep]
+        print("Node: " + str(node) + "\t Frame: " + str(timestep) + "\tFire: " + str(fire))
         if fire > 0.9:
             color_map_node.append("yellow")
             color_map_edge.append("yellow")
@@ -45,8 +45,7 @@ def animate(frame):
     nx.draw(G, pos=pos, node_color=color_map_node, node_size=100)
 
 #edge_color=color_map_edge
-frames = len(result.time_record[0]) - 1
-ani = animation.FuncAnimation(fig, animate, frames=frames, interval=5, repeat=False)
-
+frames = int(len(result.time_record[0]) / end_time)
+ani = animation.FuncAnimation(fig, animate, frames=frames, interval=100, repeat=False)
 plt.show()
 
