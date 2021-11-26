@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import stats
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 class Result:
     
@@ -83,8 +84,7 @@ def run_simulation(N=10, dt=1E-5, end_time=3):
 
 
     
-    for step in range(n_steps):
-
+    for step in tqdm(range(n_steps), desc="Running Simulation"):
         # Check which neurons are spiking in this time step
         # First calculate the spiking rate at this time point for each neuron.
         # The spiking rate * the time period
@@ -105,7 +105,7 @@ def run_simulation(N=10, dt=1E-5, end_time=3):
             neurons[i] = neurons[i] + get_spike_addition(i, spike_record[:,step], weight_matrix)
     # Create result class and return it
     result = Result(spike_record, dt)
-    return (spike_record)
+    return (result)
                           
 #result = run_simulation(N=500,end_time=20, dt=1)        
 #print (result)
