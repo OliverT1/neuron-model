@@ -4,7 +4,7 @@ import random
 import numpy as np
 import Model_for_nx as mnx
 
-N = 100
+N = 50
 end_time = 20
 dt = 1E-2
 result = mnx.run_simulation(N=N, end_time=end_time, dt=dt) 
@@ -18,9 +18,9 @@ for i in range(0, N):
     G.add_node(i)
     
 #FOR 4 OUTGOING EDGES PER NODE
-#for i in range(0, graph_size):
-#    for j in range(i+1, i+5):
-#        G.add_edge(i, j)
+#for i in range(0, N):
+ #   for j in range(i+1, i+5):
+  #      G.add_edge(i, j)
 
 pos = nx.random_layout(G, seed=42)
 
@@ -35,17 +35,18 @@ def animate(frame):
         fire = result.spike_record[node][timestep]
         # print("Node: " + str(node) + "\t Frame: " + str(timestep) + "\tFire: " + str(fire))
         if fire > 0.9:
-            color_map_node.append("yellow")
-            color_map_edge.append("yellow")
+            color_map_node.append("pink")
+            color_map_edge.append("pink")
         else:
             color_map_node.append("cornflowerblue")
             color_map_edge.append("black")
 
 
     nx.draw(G, pos=pos, node_color=color_map_node, node_size=100)
-
 #edge_color=color_map_edge
+
 frames = int(len(result.time_record[0]) / end_time)
 ani = animation.FuncAnimation(fig, animate, frames=frames, interval=100, repeat=False)
-plt.show()
+writergif = animation.PillowWriter(fps=10)
+ani.save('./ani.gif', writer=writergif)
 
