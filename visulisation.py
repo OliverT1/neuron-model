@@ -9,18 +9,13 @@ end_time = 20
 dt = 1E-2
 result = mnx.run_simulation(N=N, end_time=end_time, dt=dt) 
 
-plt.rcParams["figure.figsize"] = [8.0, 8.0]
+plt.rcParams["figure.figsize"] = [8.0, 6.0]
 plt.rcParams["figure.autolayout"] = True
 
 fig = plt.figure()
 G = nx.DiGraph()
 for i in range(0, N):
     G.add_node(i)
-    
-#FOR 4 OUTGOING EDGES PER NODE
-#for i in range(0, N):
- #   for j in range(i+1, i+5):
-  #      G.add_edge(i, j)
 
 pos = nx.random_layout(G, seed=42)
 
@@ -43,10 +38,10 @@ def animate(frame):
 
 
     nx.draw(G, pos=pos, node_color=color_map_node, node_size=100)
-#edge_color=color_map_edge
 
 frames = int(len(result.time_record[0]) / end_time)
-ani = animation.FuncAnimation(fig, animate, frames=frames, interval=100, repeat=False)
+ani = animation.FuncAnimation(fig, animate, frames=frames, interval=100, repeat=True)
 writergif = animation.PillowWriter(fps=10)
 ani.save('./ani.gif', writer=writergif)
+plt.show()
 
