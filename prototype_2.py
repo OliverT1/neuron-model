@@ -33,7 +33,7 @@ def animate(frame):
     color_map_edge = []
     for node in G:
         fire = result.spike_record[node][timestep]
-        print("Node: " + str(node) + "\t Frame: " + str(timestep) + "\tFire: " + str(fire))
+        # print("Node: " + str(node) + "\t Frame: " + str(timestep) + "\tFire: " + str(fire))
         if fire > 0.9:
             color_map_node.append("yellow")
             color_map_edge.append("yellow")
