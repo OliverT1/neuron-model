@@ -4,15 +4,17 @@ import random
 import numpy as np
 import Model_for_nx as mnx
 
-result = mnx.run_simulation(N=500,end_time=20, dt=1) 
+N = 100
+end_time = 5
+dt = 1E-2
+result = mnx.run_simulation(N=N, end_time=end_time, dt=dt) 
 
-plt.rcParams["figure.figsize"] = [10.0, 10.0]
+plt.rcParams["figure.figsize"] = [8.0, 8.0]
 plt.rcParams["figure.autolayout"] = True
 
 fig = plt.figure()
-graph_size = len(result)
 G = nx.DiGraph()
-for i in range(0, graph_size):
+for i in range(0, N):
     G.add_node(i)
     
 #FOR 4 OUTGOING EDGES PER NODE
@@ -30,9 +32,9 @@ def animate(frame):
     color_map_node = [] 
     color_map_edge = []
     for node in G:
-        neuron = result[node-1]
-        fire = bool(neuron[timestep])
-        if fire:
+        fire = result.time_record[node][timestep]
+        # print("Node: " + str(node) + "\t Frame: " + str(timestep) + "\tFire: " + str(fire))
+        if fire > 0.9:
             color_map_node.append("yellow")
             color_map_edge.append("yellow")
         else:
@@ -43,8 +45,8 @@ def animate(frame):
     nx.draw(G, pos=pos, node_color=color_map_node, node_size=100)
 
 #edge_color=color_map_edge
-
-ani = animation.FuncAnimation(fig, animate, frames=20, interval=20, repeat=True)
+frames = len(result.time_record[0]) - 1
+ani = animation.FuncAnimation(fig, animate, frames=frames, interval=5, repeat=False)
 
 plt.show()
 
